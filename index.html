@@ -1,0 +1,559 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Functional Programing</title>
+    <meta charset="utf-8">
+    <style>
+      @import url(https://fonts.googleapis.com/css?family=Yanone+Kaffeesatz);
+      @import url(https://fonts.googleapis.com/css?family=Droid+Serif:400,700,400italic);
+      @import url(https://fonts.googleapis.com/css?family=Ubuntu+Mono:400,700,400italic);
+
+      body { font-family: 'Droid Serif';}
+      h1, h2, h3 {
+        font-family: 'Yanone Kaffeesatz';
+        font-weight: normal;
+      }
+
+      ul li {
+        margin-bottom: 20px;
+      }
+
+      img[alt='Alt simpson'] { width: 700px; height:500px; }
+
+      .image-only p {
+        text-align: center;
+      }
+
+      .remark-slide-content {
+          font-size: 23px;
+          background-image: url('images/background.jpg');
+          padding-top: 1px;
+      }
+
+      .remark-code {
+          font-size: 23px;
+      }
+
+      .remark-slide-content h1 {
+          font-size: 40px;
+      }
+
+      .remark-code, .remark-inline-code { font-family: 'Arial'; }
+    </style>
+  </head>
+  <body>
+    <textarea id="source">
+
+
+class: middle center
+## Programação Funcional em Python3
+
+## de forma simples
+
+Anderson Resende
+<p>@AndersonRe86</p>
+<p>github.com/andersonresende</p>
+
+---
+class: middle center
+## O que é?
+
+## Imperativo(OOP) X Funcional
+
+---
+# Statements vs. Expressions (Declarativo)
+
+"Como fazer"
+```python
+numbers = [1, 2, 3, 4]
+total = 0
+for number in numbers:
+  total += number
+>>> total
+>>> 10
+```
+"O que você quer"
+```python
+numbers = [1, 2, 3, 4]
+>>> sum(numbers)
+>>> 10
+
+```
+---
+# Ainda sobre expressões...
+
+if **statement**
+```python
+if True:
+  return 'Works!'
+else:
+  return 'Error!'
+```
+if **expression**
+```python
+>>> 'Works!' if True else 'Error!'
+>>> 'Works!'
+
+my_function('Works!' if True else 'Error!')
+```
+
+--
+Expressões sempre retornam um valor, você pode usá-las como argumentos em funções.
+Programação Funcional enfatiza o uso de expressões
+---
+# Mutabilidade vs. Imutabilidade (300 linhas de código)
+
+**Mutabilidade:**
+```python
+def sum_(numbers):
+  total = 0
+  for number in numbers:
+      total += number
+  return total
+
+>>> sum_lst([1, 2, 3, 4])
+>>> 10
+```
+---
+**Imutabilidade (Recursão):**
+```python
+def sum_(numbers):
+  if not lst:
+      return 0
+  first = numbers[0]
+  rest = numbers[1:]
+  return first + sum_(rest)
+
+>>> sum_([1, 2, 3, 4])
+>>> 10
+```
+
+```python
+1 + sum_(2, 3, 4)
+1 + (2 + sum_(3, 4))
+1 + (2 + (3 + sum_(4)))
+1 + (2 + (3 + (4 + sum_([]))))
+1 + (2 + (3 + (4 + 0)))
+1 + (2 + (3 + 4))
+1 + (2 + 7)
+1 + 9
+10
+```
+---
+## Ainda sobre recursão...
+
+![Alt text](images/japones.jpg)
+---
+
+# Composição de funções
+
+`f2(f1(value))`
+
+```python
+def clean_and_lower(text):
+   return text.strip().lower()
+
+>>> clean_and_lower('  Anderson  '))
+>>> ' anderson '
+
+```
+```python
+pip install toolz
+```
+
+```python
+import toolz
+
+clean_and_lower = toolz.compose(str.strip, str.lower)
+
+>>> clean_and_lower('  Anderson  '))
+>>> 'anderson'
+
+```
+---
+class: middle center
+# Programação funcional em Python
+
+![Alt simpson](images/simpson.jpg)
+
+---
+# Programação funcional em Python
+
+- First-Class functions
+- Higher-Order functions
+- Lambda expression
+- List Comprehensions
+---
+
+# First-class functions
+
+Uma linguagem que possue First-Class functions trata funções como um dado qualquer, elas podem ser passadas em outros funções como argumentos ou em variáveis.
+
+```python
+def call_my_name(name):
+  return name
+
+call_my_name_again = call_my_name
+
+>>> call_my_name_again == call_my_name
+>>> True
+
+>>> call_my_name('Anderson')
+>>> 'Anderson'
+
+>>> call_my_name_again('Anderson')
+>>> 'Anderson'
+```
+
+---
+
+# Higher order functions
+
+Higher-Order functions são funções que recebem uma ou mais funções como argumento ou retornam funções.
+
+```python
+def convert_to(to_what, number):
+ return to_what(number)
+
+>>> convert_to(float, 20)
+>>> 20.0
+
+>>> convert_to(str, 10)
+>>> '10'
+```
+---
+
+# Usando Map (High-Order function)
+
+Imperativa
+```python
+numbers = [1, 2, 3, 4]
+new_numbers = []
+for number in numbers:
+  new_numbers.append(number * 2)
+>>> new_numbers
+>>> [2, 4, 6, 8]
+```
+--
+Funcional
+```python
+def double(number):
+  return number * 2
+
+>>> list(map(double, [1, 2, 3, 4]))
+>>> [2, 4, 6, 8]
+```
+---
+# Lambda expressions (Funções anônimas)
+
+`def` statement
+```python
+def add_one(number):
+  return number + 1
+```
+--
+#### Lambda
+```python
+add_one = lambda number: number + 1
+>>> add_one
+>>> <function <lambda> at 0x1021da9d8>
+
+>>> add_one(10)
+>>> 10
+```
+--
+#### Usando Map + Lambda
+```python
+>>> list(map(lambda number: number + 1, [1, 2, 3, 4]))
+>>> [2, 3, 4, 5]
+```
+
+---
+# List Comprehensions (Iterar sobre listas)
+
+`for` statement
+```python
+dogs = ["Todd", "Bob"]
+big_dogs = []
+for dog in dogs:
+  big_dogs.append("Big {}".format(dog))
+
+>>> big_dogs
+>>> ['Big Todd', 'Big Bob']
+```
+--
+#### Comprehensions (Expressions)
+```python
+dogs = ["Todd", "Bob"]
+big_dogs = ["Big {}".format(dog) for dog in dogs]
+
+>>> big_dogs
+>>> ['Big Todd', 'Big Bob']
+
+```
+
+---
+#Combinando tudo: dois importantes módulos.
+
+### 1) Operator
+
+### 2) Functools
+
+---
+
+#Operator: contribuindo com o uso de high-order functions
+
+Soma regular
+```python
+soma = 1 + 2
+
+>>> soma
+>>> 3
+```
+--
+### Usando Operator
+```python
+import operator
+```
+```python
+soma = operator.add(1, 2)
+
+>>> soma
+>>> 3
+```
+---
+# Functools: Reduce
+
+```python
+from functools import reduce
+```
+```python
+>>> reduce(lambda a, b: a+b, [3, 5, 2, 1])
+>>> 11
+```
+--
+#### Usando Reduce + Operator
+```python
+>>> reduce(operator.add, [3, 5, 2, 1])
+>>> 11
+```
+![Alt text](images/reduce.png)
+--
+
+```python
+>>> reduce(operator.concat, ["Reduce", " is", " Awesome!"])
+>>> 'Reduce is Awesome!'
+```
+---
+# Functools: Partial
+
+Observe o exemplo abaixo usando **operator.concat**:
+
+```python
+from functools import partial
+```
+```python
+call_me_mr = partial(operator.concat, 'Mr ')
+
+>>> call_me_mr
+>>> functools.partial(<built-in function concat>, 'Mr ')
+
+>>> call_me_mr('Anderson')
+>>> 'Mr Anderson'
+
+>>> call_me_mr('Renato')
+>>> 'Mr Renato'
+```
+---
+class: middle center
+![Alt text](images/futurama.jpg)
+
+
+
+---
+# Exemplo 1:
+
+Vamos combinar **partial** com a função **sorted** e o modulo **operator**:
+
+```python
+person = namedtuple('Person', 'name age')
+people = [person('Anderson', 29), person('Renato', 25), ...]
+```
+--
+1) Ruim
+```python
+>>> sorted(people, key=lambda p: p.name)
+>>> [person('Anderson', 29), person('Renato', 25), ...]
+
+>>> sorted(people, key=lambda p: p.age)
+>>> [person('Renato', 25), person('Anderson', 29), ... ]
+```
+---
+2) Normal
+```python
+def sort_by_name(people):
+  return sorted(people, key=lambda p: p.name)
+
+def sort_by_age(people):
+  return sorted(people, key=lambda p: p.age)
+```
+```python
+>>> sort_by_name(people)
+>>> [person('Anderson', 29), person('Renato', 25), ...]
+
+>>> sort_by_age(people)
+>>> [person('Renato', 25), person('Anderson', 29), ... ]
+```
+---
+### Usando partial:
+```python
+sort_by_name = partial(sorted, key=lambda p: p.name)
+sort_by_age = partial(sorted, key=lambda p: p.age)
+```
+```python
+>>> sort_by_name(people)
+>>> [person('Anderson', 29), person('Renato', 25), ...]
+
+>>> sort_by_age(people)
+>>> [person('Renato', 25), person('Anderson', 29), ... ]
+```
+--
+
+### Partial + Operator
+```python
+sort_by_name = partial(sorted, key=operator.attrgetter('name'))
+sort_by_age = partial(sorted, key=operator.attrgetter('age'))
+```
+---
+# Exemplo 2:
+
+Retorno da API
+```python
+person_one = {'name':'Anderson', 'redes_sociais': [
+    {'name': 'facebook', 'profile_img': 'img1'},
+    {'name': 'twitter', 'profile_img': ''}]}
+
+person_two = {'name':'Renato', 'redes_sociais': [
+    {'name': 'facebook', 'profile_img': ''},
+    {'name': 'twitter', 'profile_img': 'img2'}]}
+```
+--
+Uma função simples que retorna a primeira imagem do profile encontrada
+```python
+def get_profile_img(person):
+    for social in person['redes_sociais']:
+        if social['profile_image']:
+            return social['profile_image']
+    return 'default'
+```
+
+---
+Agora a imagem da capa esta sendo retornada pela API também:
+```python
+person_one = {'name':'Anderson', 'redes_sociais': [
+    {'name': 'facebook', 'profile_img': 'img1', 'cover_image': 'cimg1'},
+    {'name': 'twitter', 'profile_img': '', 'cover_image': 'cimg2'}]}
+
+person_two = {'name':'Renato', 'redes_sociais': [
+    {'name': 'facebook', 'profile_img': '', 'cover_image': ''},
+    {'name': 'twitter', 'profile_img': 'img2', 'cover_image': 'cimg3'}]}
+```
+--
+Primeira Abordagem (Ruim)
+```python
+def get_profile_img(person):
+    for social in person['redes_sociais']:
+        if social['profile_image']:
+            return social['profile_image']
+    return 'default'
+
+def get_cover_img(person):
+    for social in person['redes_sociais']:
+        if social['cover_image']:
+            return social['cover_image']
+    return 'default'
+```
+---
+Segunda Abordagem (Normal)
+```python
+def get_img_by(which_image, person):
+    for social in person['redes_sociais']:
+        if social[which_image]:
+            return social[which_image]
+    return 'default'
+
+def get_profile_img(person):
+    return get_img_by('profile_image', person)
+
+def get_cover_img(person):
+    return get_img_by('cover_image', person)
+```
+--
+### Usando Partial
+A cada nova imagem uma única linha de código, declarativo e mais legal:
+```python
+get_profile_img = partial(get_img_by, 'image')
+get_cover_img = partial(get_img_by, 'cover_image')
+```
+---
+# Exemplo 3:
+Enviando emails:
+
+```python
+from templated_email import send_templated_mail
+```
+
+```python
+def send_welcome_email(user, request):
+    send_templated_mail(
+        template_name='welcome_template',
+        recipient_list=[user.email],
+        from_email=settings.DEFAULT_FROM_EMAIL,
+        context={'user': user}
+    )
+
+def send_payment_email(user):
+    send_templated_mail(
+        template_name='payment_template',
+        recipient_list=[user.email],
+        from_email=settings.DEFAULT_FROM_EMAIL,
+        context={'user': user}
+    )
+```
+---
+Usando Partial:
+
+1) Criamos uma função base:
+```python
+def send_base_email(template_name, user):
+    send_templated_mail(
+        template_name=template_name,
+        recipient_list=[user.email],
+        from_email=settings.DEFAULT_FROM_EMAIL,
+        context={'user': user}
+    )
+```
+--
+2) Usamos partial:
+```python
+send_welcome_email = partial(send_base_email, 'welcome_template')
+send_payment_email = partial(send_base_email, 'payment_template')
+```
+---
+class: middle center
+# Obrigado e espero que...
+![Alt text](images/cat.jpg)
+
+    </textarea>
+    <script src="https://gnab.github.io/remark/downloads/remark-latest.min.js">
+    </script>
+    <script>
+        var nome = ["docco", 'mono-blue'];
+      var slideshow = remark.create({
+          slideNumberFormat: '',
+          highlightLanguage: 'python',
+          highlightStyle: 'docco',
+      });
+    </script>
+  </body>
+</html>
